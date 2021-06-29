@@ -1,0 +1,214 @@
+# vim: filetype=i3
+# File originally  ReinerYaeger 
+
+# #---Basic Definitions---# #
+
+
+for_window [class="^.*"] border pixel 3
+gaps inner 15
+gaps outer 20
+
+set $mod Mod4
+set $texteditor subl
+set $browser /usr/bin/firefox
+set $term xfce4-terminal
+set $fileManager exo-open --launch FileManager
+set $refresh_i3status killall -SIGUSR1 i3status
+
+bar {
+        font pango:KIN668 9
+        status_command i3status
+        mode hide
+        position top
+        output primary
+        tray_output none
+        separator_symbol |
+}
+
+font pango:monospace 8
+
+# Use Mouse+$mod 
+floating_modifier $mod
+
+# #---Key-bindings---# #
+
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+
+bindsym $mod+d exec     --no-startup-id dmenu_run
+bindsym $mod+q kill     
+bindsym $mod+Shift+f    exec $fileManager
+bindsym $mod+Return     exec $term   
+bindsym $mod+BackSpace  mode "$mode_system"
+bindsym $mod+l          exec --no-startup-id $i3lockwall, mode "default" 
+bindsym $mod+z          gaps outer current plus 5 
+bindsym $mod+Shift+z    gaps outer current minus 5
+bindsym $mod+b          bar mode toggle 
+bindsym $mod+Shift+b    floating toggle; sticky toggle; exec --no-startup-id hover left 
+bindsym $mod+Shift+n    floating toggle; sticky toggle; exec --no-startup-id hover right 
+bindsym $mod+Shift+r    restart 
+bindsym $mod+Left       focus left
+bindsym $mod+Down       focus down
+bindsym $mod+Up         focus up
+bindsym $mod+Right      focus right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up   move up
+bindsym $mod+Shift+Right move right
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+f          fullscreen toggle
+bindsym $mod+s          layout stacking
+bindsym $mod+w          layout tabbed
+bindsym $mod+e          layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space      focus mode_toggle
+bindsym $mod+a          focus parent
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume    exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume    exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute           exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute        exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym $mod+p exec "light -A 5; notify-send 'brightness up'"
+bindsym $mod+Shift+p exec "light -U 5; notify-send 'brightness down'"
+
+
+bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
+bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
+
+# Screenshots
+bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
+bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
+bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
+
+## Clipboard Screenshots
+bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+
+
+
+#STOP/HIDE EVERYTHING:
+bindsym $mod+Shift+Delete       exec --no-startup-id lmc truemute ; exec --no-startup-id lmc pause ; exec --no-startup-id pauseallmpv; workspace 0; exec $term -e htop ; exec $term -e $FILE
+
+###Session
+set $mode_system System (l) lock, (e) logout, (h) hibernate, (r) reboot, (CTRL+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $i3lockwall, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+# #---Cosmetics---# #
+set $i3lockwall i3lock -i /home/atom/Pictures/Wallpaper.png -t
+exec --no-startup-id feh --no-fehbg --bg-fill '/home/atom/Pictures/arch.png'
+exec --no-startup-id bar mode toggle
+exec --no-startup-id xss-lock --transfer-sleep-lock $i3lockwall
+exec_always --no-startup-id compton
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+
+# #---Dropdown Windows---# #
+# General dropdown window traits. The order can matter.
+for_window [instance="dropdown_*"] floating enable
+for_window [instance="dropdown_*"] move scratchpad
+for_window [instance="dropdown_*"] sticky enable
+for_window [instance="dropdown_*"] scratchpad show
+for_window [instance="dropdown_tmuxdd"] resize set 625 450
+for_window [instance="dropdown_dropdowncalc"] resize set 800 300
+for_window [instance="dropdown_tmuxdd"] border pixel 3
+for_window [instance="dropdown_dropdowncalc"] border pixel 2
+for_window [instance="dropdown_*"] move position center
+for_window [class="Pinentry"] sticky enable
+for_window [class="sent"] border pixel 0px
+for_window [title="GIMP Startup"] move workspace $ws5
+for_window [class="Gimp"] move workspace $ws5
+for_window [class="Gimp"] move workspace $ws5
+
+#for_window [title="$fileManager"] move workspace $ws5
+
+# Bindings to make the webcam float and stick.
+for_window [title="mpvfloat"] floating enable
+for_window [title="mpvfloat"] sticky enable
+for_window [title="mpvfloat"] border pixel 0
+no_focus   [title="mpvfloat"]
+
+##----Window----##
+assign [class="vlc"]            $ws6
+assign [class="qbittorrent"]    $ws7
+#assign [class="$browser"]      $ws1
+assign [class="$fileManager"]   $ws3
+#assign [class="Gimp"]          $ws5
+
+
+# #---Start-up-Applications-Assignment---# #
+exec --no-startup-id i3-msg 'workspace $ws1; exec $browser'
+exec --no-startup-id i3-msg 'workspace $ws2;  exec $texteditor'
+exec --no-startup-id i3-msg 'workspace $ws2; exec $term '
+for_window [class="$term"] title_align right
+
+
+# NetworkManager
+exec --no-startup-id nm-applet
+
+set $ws1 "1:Web"
+set $ws2 "2:Term"
+set $ws3 "3:File"
+set $ws4 "4"
+set $ws5 "5:Art"
+set $ws6 "6:Media"
+set $ws7 "7:Stuff"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+
