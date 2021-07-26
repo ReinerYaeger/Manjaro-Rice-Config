@@ -11,31 +11,34 @@ gaps outer 13
 set $mod Mod4
 set $texteditor subl
 set $browser /usr/bin/firefox
-set $term xfce4-terminal
+set $term xfce4-terminal 
+#set $term xfce4-terminal -e tmux
 set $fileManager exo-open --launch FileManager
 set $refresh_i3status killall -SIGUSR1 i3status
+set $launcher '/home/atom/.config/polybar/forest/scripts/launcher.sh'
+set $power_menu '/home/atom/.config/polybar/forest/scripts/powermenu.sh'
 
-bar {
-        font pango:monospace 9
-        status_command i3status
-        mode hide
-        position top
-        output primary
-        tray_output none
-        separator_symbol |
+# bar {
+#         font pango:monospace 9
+#         status_command i3status
+#         mode hide
+#         position top
+#         output primary
+#         tray_output none
+#         separator_symbol |
         
-        colors {
-                background #222749
-                statusline #F8F8F2
-                separator  #44475A
+#         colors {
+#                 background #222749
+#                 statusline #F8F8F2
+#                 separator  #44475A
 
-                focused_workspace  #44475A #44475A #F8F8F2
-                active_workspace   #282A36 #44475A #F8F8F2
-                inactive_workspace #282A36 #282A36 #BFBFBF
-                urgent_workspace   #FF5555 #FF5555 #F8F8F2
-                binding_mode       #FF5555 #FF5555 #F8F8F2
-        }
-}
+#                 focused_workspace  #44475A #44475A #F8F8F2
+#                 active_workspace   #282A36 #44475A #F8F8F2
+#                 inactive_workspace #282A36 #282A36 #BFBFBF
+#                 urgent_workspace   #FF5555 #FF5555 #F8F8F2
+#                 binding_mode       #FF5555 #FF5555 #F8F8F2
+#         }
+# }
 
 
 # class                 border  bground text    indicator child_border
@@ -71,7 +74,8 @@ mode "resize" {
 }
 
 
-bindsym $mod+d exec     --no-startup-id dmenu_run
+#bindsym $mod+d exec     --no-startup-id dmenu_run
+bindsym $mod+d          exec  $launcher
 bindsym $mod+q          kill     
 bindsym $mod+Shift+f    exec $fileManager
 bindsym $mod+Return     exec $term   
@@ -108,11 +112,11 @@ bindsym XF86AudioLowerVolume    exec --no-startup-id pactl set-sink-volume @DEFA
 bindsym XF86AudioMute           exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute        exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-bindsym XF86MonBrightnessUp exec "light -A 3; notify-send 'brightness up'"
-bindsym XF86MonBrightnessDown exec "light -U 3; notify-send 'brightness down'"
+bindsym XF86MonBrightnessUp     exec "xbacklight -inc 2 -time 5"
+bindsym XF86MonBrightnessDown   exec "xbacklight -dec 2 -time 5"
 
 #Screenshoter
-bindsym --release Shift+Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh partial
+bindsym --release Shift+Print   exec --no-startup-id sh $HOME/.config/i3/screenshot.sh partial
 bindsym --release Ctrl+Shift+Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh partial clipboard
 
 bindsym --release Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh full
@@ -122,35 +126,35 @@ bindsym --release $mod+Print exec --no-startup-id sh $HOME/.config/i3/screenshot
 bindsym --release Ctrl+$mod+Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh current clipboard
 
 
+bindsym $mod+Delete exec $power_menu 
 
-#STOP/HIDE EVERYTHING:
-bindsym $mod+Shift+Delete   exec --no-startup-id lmc truemute ; exec --no-startup-id lmc pause ; exec --no-startup-id pauseallmpv; workspace 0; exec $term -e htop ; exec $term -e $FILE
+# ###Session
+# set $mode_system System (l) lock, (e) logout, (h) hibernate, (r) reboot, (CTRL+s) shutdown
+# mode "$mode_system" {
+#     bindsym l exec --no-startup-id $i3lockwall, mode "default"
+#     bindsym e exec --no-startup-id i3-msg exit, mode "default"
+#     bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
+#     bindsym r exec --no-startup-id systemctl reboot, mode "default"
+#     bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
-###Session
-set $mode_system System (l) lock, (e) logout, (h) hibernate, (r) reboot, (CTRL+s) shutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id $i3lockwall, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
-
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+#     # back to normal: Enter or Escape
+#     bindsym Return mode "default"
+#     bindsym Escape mode "default"
+# }
 
 
 # #---Cosmetics---# #
-set $i3lockwall i3lock -u -e -c 20456a /home/atom/Pictures/moon.png
+set $i3lockwall --no-startup-id sh $HOME/.config/i3/i3lock.sh
+                #i3lock  -f -e -i /home/atom/Pictures/moon.png -c 000000  
 exec --no-startup-id feh --no-fehbg --bg-fill '/home/atom/Pictures/moon.jpg'
 exec --no-startup-id bar mode toggle
 exec --no-startup-id xss-lock --transfer-sleep-lock $i3lockwall
 exec_always --no-startup-id compton
-exec  bindsym Ctrl+$mod+Delete exec xautolock -locknow 
-
-exec_always --no-startup-id xautolock -time 5  -locker "i3lock -c 20456a  && sleep 1"-killtime 10 -killer "systemctl suspend"  -detectsleep 
-#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+#exec  bindsym Ctrl+$mod+Delete exec xautolock -locknow 
+exec_always --no-startup-id xautolock -time 5  -locker "sh $HOME/.config/i3/i3lock.sh"
+                                                                #-killtime 10 -killer "systemctl suspend"  -detectsleep 
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh --forest
+#blocks grayblocks shades forest
 
 
 # #---Dropdown Windows---# #
@@ -159,10 +163,8 @@ for_window [instance="dropdown_*"] floating enable
 for_window [instance="dropdown_*"] move scratchpad
 for_window [instance="dropdown_*"] sticky enable
 for_window [instance="dropdown_*"] scratchpad show
-for_window [instance="dropdown_tmuxdd"] resize set 625 450
 for_window [instance="dropdown_dropdowncalc"] resize set 800 300
 for_window [instance="dropdown_tmuxdd"] border pixel 3
-for_window [instance="dropdown_dropdowncalc"] border pixel 2
 for_window [instance="dropdown_*"] move position center
 for_window [class="Pinentry"] sticky enable
 for_window [class="sent"] border pixel 0px
@@ -181,7 +183,7 @@ no_focus   [title="mpvfloat"]
 ##----Window----##
 assign [class="vlc"]            $ws6
 assign [class="qbittorrent"]    $ws7
-assign [class="$browser"]       1$ws1
+assign [class="firefox"]       $ws1
 
 
 # #---Start-up-Applications-Assignment---# #
@@ -198,7 +200,7 @@ set $ws1 "1:Web"
 set $ws2 "2:Term"
 set $ws3 "3:File"
 set $ws4 "4"
-set $ws5 "5:Art"
+set $ws5 "5"
 set $ws6 "6:Media"
 set $ws7 "7:Stuff"
 set $ws8 "8"
