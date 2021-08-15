@@ -2,14 +2,13 @@ set nu
 set mouse=v
 set rnu
 set updatetime=300
-set history=10000
+set history=100
 "set shell=/bin/bash
 set tabstop=3
 set autoindent
 set shiftwidth=4
 set splitright
 set confirm
-set showbreak=↪
 set incsearch
 set showcmd
 set cmdheight=2
@@ -20,17 +19,29 @@ set omnifunc=syntaxcomplete#Complete
 "set completeopt+=popup
 set nocompatible
 
+" Use ESC to exit insert mode in :term
+tnoremap <Esc> <C-\><C-n>
+
+
 "I added
 set visualbell
 set noerrorbells
 set numberwidth=1
+"set relativenumber
+set encoding=UTF-8
+set ttyfast  
+map <Esc> :set relativenumber!<CR>
+:nmap <1Leader>v :e $MYVIMRC
 
 "my mappings
 ":noremap _ u
 ":normap + <c-r> 
 
 :vmap u U
+set spelllang=en,cjk
 
+nnoremap <silent> <F11> :set spell!<cr>
+inoremap <silent> <F11> <C-O>:set spell!<cr>
 
 
 "Syntax enabled.
@@ -38,7 +49,7 @@ syntax on
 filetype plugin indent on
 
 "You see suggestion for commands in Airline.
-set wildmenu
+set wildmenu  
 
 
 "This is your leader key
@@ -58,7 +69,9 @@ nnoremap {w :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 
 call plug#begin()
+Plug 'rbgrouleff/bclose.vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'rbgrouleff/bclose.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-commentary'
@@ -77,19 +90,21 @@ Plug 'vim-airline/vim-airline-themes'
 
 "I added
 Plug 'https://github.com/preservim/nerdtree'
-
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
 "colorschemes      ---------------------------------
 Plug 'whatyouhide/vim-gotham'
-Plug 'morhetz/gruvbox'
-Plug 'junegunn/seoul256.vim'
-Plug 'tomasiser/vim-code-dark'
-Plug 'nightsense/cosmic_latte'
-Plug 'arcticicestudio/nord-vim'
 Plug 'dracula/vim',{'as':'dracula'}
 Plug 'kaicataldo/material.vim'
-Plug 'nightsense/stellarized'
-Plug 'nanotech/jellybeans.vim'
-Plug 'jnurmine/zenburn'
+Plug 'neomake/neomake'
+Plug 'https://github.com/Townk/vim-autoclose'
+Plug 'rbgrouleff/bclose.vim'
+  Plug 'ncm2/ncm2'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+
+  Plug 'ncm2/ncm2-ultisnips'
+  " Plug 'SirVer/ultisnips' should have been already added in previous
 call plug#end()
 
 
@@ -104,6 +119,9 @@ augroup ProjectDrawer
 "
 "Automatically remove all trailing whitespaces on saving file.
 autocmd BufWritePre * :%s/\s\+$//e
+
+"let NERDTreeMapOpenInTab='<ENTER>'
+"let NERDTreeCustomOpenArgs={'file':{'where': 't'}}
 
 "These mappings are for easy movements between mutiple splits in VIM.
 "Ex- Press ctrl+j to go to split just below your cursor.
@@ -130,8 +148,6 @@ nmap <leader>t :vert term<CR>
 autocmd FileType c,cpp :set cindent
 autocmd FileType c,cpp :setf c
 autocmd FileType c,cpp :set expandtab
-
-
 
 
 
