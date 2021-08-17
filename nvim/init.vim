@@ -16,6 +16,8 @@ set guifont=Hack\ Nerd\ Font:h16
 set ttimeoutlen=100
 set ignorecase
 set omnifunc=syntaxcomplete#Complete
+set laststatus=2
+set title
 "set completeopt+=popup
 set nocompatible
 
@@ -24,6 +26,7 @@ tnoremap <Esc> <C-\><C-n>
 
 
 "I added
+noremap! <C-?> <C-h>
 set visualbell
 set noerrorbells
 set numberwidth=1
@@ -32,6 +35,10 @@ set encoding=UTF-8
 set ttyfast  
 map <Esc> :set relativenumber!<CR>
 :nmap <1Leader>v :e $MYVIMRC
+
+set hlsearch!
+nnoremap <F3> :set hlsearch!<CR>
+
 
 "my mappings
 ":noremap _ u
@@ -89,6 +96,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 "I added
+Plug 'yaocccc/nvim-lines.lua'
 Plug 'https://github.com/preservim/nerdtree'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
@@ -125,10 +133,13 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 "These mappings are for easy movements between mutiple splits in VIM.
 "Ex- Press ctrl+j to go to split just below your cursor.
-map <C-j> <C-W>j
+map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+set backspace=indent,eol,start
+
 
 "Remapped ctrl+e to go to the end of the line in INSERT mode and ctrl+a to start of the line.
 inoremap <C-e> <C-o>$
@@ -209,12 +220,24 @@ command! AirlineThemes call fzf#run({
 			\ 'options': '+m --prompt="Airline Themes> "',
 			\ 'down':    '~40%'
 			\})
-let g:airline_theme='badwolf'
+let g:airline_theme='luna'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#bufferline#enabled = 1
-let g:airline_left_sep = ''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.branch = ''
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#bufferline#left_sep = ''
+let g:airline#extensions#bufferline#left_alt_sep = ''
+
 
 " let &t_SI = "\e[3 q"
 " let &t_EI = "\e[3 q"
