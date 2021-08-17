@@ -1,0 +1,19 @@
+comment vim with c++
+:150,159s/\/\/
+
+comment with python 
+:150,159s/^/#  
+
+
+Split vim 
+:vsp ~/.vimrc
+:10sp 
+
+https://thoughtbot.com/blog/vim-splits-move-faster-and-more-naturally
+
+Go back to previous file 
+CTRL SHIFT ^
+
+
+Reopen closed buffer 
+CTRL o
