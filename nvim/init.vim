@@ -18,61 +18,81 @@ set ignorecase
 set omnifunc=syntaxcomplete#Complete
 set laststatus=2
 set title
+"set bufhidden
 "set completeopt+=popup
 set nocompatible
-
-" Use ESC to exit insert mode in :term
-tnoremap <Esc> <C-\><C-n>
-
-
-"I added
-noremap! <C-?> <C-h>
 set visualbell
 set noerrorbells
 set numberwidth=1
 "set relativenumber
 set encoding=UTF-8
 set ttyfast  
-map <Esc> :set relativenumber!<CR>
-:nmap <1Leader>v :e $MYVIMRC
-
 set hlsearch!
-nnoremap <F3> :set hlsearch!<CR>
-
-
-"my mappings
-":noremap _ u
-":normap + <c-r> 
-
-:vmap u U
 set spelllang=en,cjk
+set wildmenu  
+set undofile
+set backupdir=/tmp//
+set directory=/tmp//
+set undodir=/tmp//
+set mouse+=a
 
-nnoremap <silent> <F11> :set spell!<cr>
-inoremap <silent> <F11> <C-O>:set spell!<cr>
-
-
-"Syntax enabled.
 syntax on
 filetype plugin indent on
 
-"You see suggestion for commands in Airline.
-set wildmenu  
+
+tnoremap <Esc> <C-\><C-n>
+map <Esc> :set relativenumber!<CR>
+nmap <1Leader>v :e $MYVIMRC
+nmap <leader>t :vert term<CR>
+"nmap <Leader>_ :DesktopFiles<CR>
+nmap <silent> gd :call <SID>GoToDefinition()<CR>
+nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr> 
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr> 
+nnoremap <silent><nowait> <space><S-s>  :<C-u>CocList -I symbols<cr> 
+nnoremap <F3> :set hlsearch!<CR>
+nnoremap <silent> <F11> :set spell!<cr>
+nnoremap {w :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr> 
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr> 
+nnoremap <silent><nowait> <space><S-s>  :<C-u>CocList -I symbols<cr> 
+nnoremap <silent>    <A-,> :BufferPrevious<CR>
+nnoremap <silent>    <A-.> :BufferNext<CR>
+nnoremap <silent>    <A-1> :BufferGoto 1<CR>
+nnoremap <silent>    <A-2> :BufferGoto 2<CR>
+nnoremap <silent>    <A-3> :BufferGoto 3<CR>
+nnoremap <silent>    <A-4> :BufferGoto 4<CR>
+nnoremap <silent>    <A-5> :BufferGoto 5<CR>
+nnoremap <silent>    <A-6> :BufferGoto 6<CR>
+nnoremap <silent>    <A-7> :BufferGoto 7<CR>
+nnoremap <silent>    <A-8> :BufferGoto 8<CR>
+nnoremap <silent>    <A-9> :BufferLast<CR>
+nnoremap <silent>    <A-p> :BufferPin<CR>
+" Close buffer
+nnoremap <silent>    <A-c> :BufferClose<CR>
+noremap <leader>c "*yy<cr>
+inoremap <silent> <F11> <C-O>:set spell!<cr>
+inoremap <C-e> <C-o>$
+inoremap <C-a> <C-o>0
 
 
-"This is your leader key
+"fzf.vim-------------------maps and uses----------------------
+""Leader+L for line search in the current file.
+"nnoremap <silent> <Leader>L   :BLines<CR>
+"nnoremap <silent> <Leader>B  :Buffers<CR>
+"nnoremap <silent> <Leader>b  :bn<CR>
+nnoremap ,cpp :-1read $HOME/.vim/skeleton/skel.cpp<CR>9j3wa<CR><ESC>O
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
 let mapleader = "\<Space>"
 
 "Disabling that irritating ERROR bell PHEW!
 if has("gui_macvim")
-	autocmd GUIEnter * set vb t_vb=
+  autocmd GUIEnter * set vb t_vb=
 endif
-
-set undofile
-"Setting directory for .backup, .swp, .undo files to location I want to.
-set backupdir=/tmp//
-set directory=/tmp//
-set undodir=/tmp//
-nnoremap {w :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 
 call plug#begin()
@@ -94,27 +114,26 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-"I added
+Plug 'romgrk/barbar.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'yaocccc/nvim-lines.lua'
 Plug 'https://github.com/preservim/nerdtree'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
-"colorschemes      ---------------------------------
 Plug 'whatyouhide/vim-gotham'
 Plug 'dracula/vim',{'as':'dracula'}
 Plug 'kaicataldo/material.vim'
 Plug 'neomake/neomake'
 Plug 'https://github.com/Townk/vim-autoclose'
 Plug 'rbgrouleff/bclose.vim'
-  Plug 'ncm2/ncm2'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-
-  Plug 'ncm2/ncm2-ultisnips'
-  " Plug 'SirVer/ultisnips' should have been already added in previous
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'ncm2/ncm2-ultisnips'
 call plug#end()
 
+"Rainbow Brackets plugin
+let g:rainbow_active = 1
 
 "NETRW
 let g:netrw_banner = 0
@@ -123,61 +142,20 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 augroup ProjectDrawer
-"Trailing whitespaces
-"
-"Automatically remove all trailing whitespaces on saving file.
+
+
 autocmd BufWritePre * :%s/\s\+$//e
-
-"let NERDTreeMapOpenInTab='<ENTER>'
-"let NERDTreeCustomOpenArgs={'file':{'where': 't'}}
-
-"These mappings are for easy movements between mutiple splits in VIM.
-"Ex- Press ctrl+j to go to split just below your cursor.
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-set backspace=indent,eol,start
-
-
-"Remapped ctrl+e to go to the end of the line in INSERT mode and ctrl+a to start of the line.
-inoremap <C-e> <C-o>$
-inoremap <C-a> <C-o>0
-
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-"indentLine settings for terminal and gui
-autocmd! User indentLine doautocmd indentLine Syntax
-
-"Rainbow Brackets plugin
-let g:rainbow_active = 1
-
-
-nnoremap ,cpp :-1read $HOME/.vim/skeleton/skel.cpp<CR>9j3wa<CR><ESC>O
-nmap <leader>t :vert term<CR>
-"This is for c and cpp
 autocmd FileType c,cpp :set cindent
 autocmd FileType c,cpp :setf c
 autocmd FileType c,cpp :set expandtab
+  let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+autocmd! User indentLine doautocmd indentLine Syntax
 
 
 
-"fzf.vim-------------------maps and uses----------------------
-""Leader+L for line search in the current file.
-nnoremap <silent> <Leader>L   :BLines<CR>
-""Leader+B for buffer search.
-nnoremap <silent> <Leader>B  :Buffers<CR>
-nnoremap <silent> <Leader>b  :bn<CR>
-""Leader+ff+Enter for file search.
-nnoremap <silent> ff :Files
-
-"command! -bang DesktopFiles call fzf#vim#files('~/Desktop/', <bang>0)
-"nmap <Leader>_ :DesktopFiles<CR>
-
-
-let g:fzf_history_dir = '/Users/arx6363/tmp_vim/skim_his'
+let g:fzf_history_dir = '/tmp_vim/skim_his'
 let g:fzf_files_options =
-			\ '--preview "(coderay {} || bat {}) 2> /dev/null | head -'.&lines.'"'
+      \ '--preview "(coderay {} || bat {}) 2> /dev/null | head -'.&lines.'"'
 let g:fzf_layout = {'window' : {'width' : 0.8, 'height' : 0.8}}
 
 "" Mapping selecting mappings
@@ -191,17 +169,17 @@ omap <leader><tab> <plug>(fzf-maps-o)
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 "
 "augroup resume_edit_position
-	autocmd!
-	autocmd BufReadPost *
-				\ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-				\ | execute "normal! g`\"zvzz"
-				\ | endif
+  autocmd!
+  autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ | execute "normal! g`\"zvzz"
+        \ | endif
 augroup END
 
 
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
-			\ {'source': 'find '.(empty(<f-args>)? '.' : <f-args>).' -type d',
-			\  'sink': 'cd'}))
+      \ {'source': 'find '.(empty(<f-args>)? '.' : <f-args>).' -type d',
+      \  'sink': 'cd'}))
 
 let g:UltiSnipsExpandTrigger= '<tab>'
 let g:UltiSnipsJumpForwardTrigger='<C-j>'
@@ -214,17 +192,15 @@ let g:UltiSnipsEditSplit="vertical"
 colorscheme material
 let g:material_terminal_italics = 1
 command! AirlineThemes call fzf#run({
-			\ 'source':  map(split(globpath(&rtp, 'autoload/airline/themes/*.vim'), "\n"),
-			\               "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
-			\ 'sink':    'AirlineTheme',
-			\ 'options': '+m --prompt="Airline Themes> "',
-			\ 'down':    '~40%'
-			\})
+      \ 'source':  map(split(globpath(&rtp, 'autoload/airline/themes/*.vim'), "\n"),
+      \               "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
+      \ 'sink':    'AirlineTheme',
+      \ 'options': '+m --prompt="Airline Themes> "',
+      \ 'down':    '~40%'
+      \})
 let g:airline_theme='luna'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#bufferline#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
@@ -232,15 +208,8 @@ let g:airline_right_alt_sep = ''
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-let g:airline_symbols.branch = ''
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#bufferline#left_sep = ''
-let g:airline#extensions#bufferline#left_alt_sep = ''
 
 
-" let &t_SI = "\e[3 q"
-" let &t_EI = "\e[3 q"
 
 function! s:GoToDefinition()
   if CocAction('jumpDefinition')
@@ -253,7 +222,6 @@ function! s:GoToDefinition()
   endif
 endfunction
 
-nmap <silent> gd :call <SID>GoToDefinition()<CR>
 au Filetype markdown,c,cpp let b:autopairs_loaded=1
 
 " Copy to system clipboard
@@ -273,7 +241,7 @@ if filereadable("Makefile")
         " autocmd FileType perl       set makeprg=echo\ OK
         autocmd FileType c          set makeprg=gcc\ -o\ %<\ %
         autocmd FileType cpp        set makeprg=g++\ --std=c++17\ -o\ %<\ %
-		autocmd FileType vhdl       set makeprg=ghdl\ -s\ %
+    autocmd FileType vhdl       set makeprg=ghdl\ -s\ %
     endif
 
                                 " nmap <F8> <ESC>:w<CR><ESC>:!./%<CR>
@@ -294,5 +262,6 @@ if filereadable("Makefile")
     " imap {{ <ESC>:w<CR><ESC>:make<CR>:cwindow<CR><CR>
     nmap {{ <ESC>:w<CR><ESC>:make<CR>:cwindow<CR><CR>
 
-	" imap {] <ESC>:w<CR><ESC>:silent make<CR>:call feedkeys("\<F4>")<CR>
+  " imap {] <ESC>:w<CR><ESC>:silent make<CR>:call feedkeys("\<F4>")<CR>
     nmap {]  <ESC>:w<CR><ESC>:silent make<CR>:call feedkeys("\{[")<CR>
+
