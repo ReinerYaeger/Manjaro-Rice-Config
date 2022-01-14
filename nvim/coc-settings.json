@@ -1,132 +1,56 @@
 {
-"languageserver": {
-  "ccls": {
-    "command": "ccls",
-    "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
-    "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
-    "initializationOptions": {
+	"python.formatting.provider": "yapf",
+   "pyright.disableCompletion": false,
+   "python.linting.pylintEnabled": false,
+   "python.linting.enabled":true,
+   "python.formatting.autopep8Args":[],
+   "python.analysis.autoSearchPaths":true,
+   "pyright.enable":true,
+   "python.analysis.autoImportCompletions":true,
+   "python.analysis.stubPath":"typings",
+
+	"python.formatting.yapfArgs": [
+		"--style",
+		"{SPACES_AROUND_POWER_OPERATOR: True, SPACES_BEFORE_COMMENT: 1}"
+	],
+  	"languageserver": {
+		
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
+      "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls"
         }
       }
-  }
-}
-}
-
-
-"languageserver": {
-  "bash": {
-    "command": "bash-language-server",
-    "args": ["start"],
-    "filetypes": ["sh"]
-  }
-}
-
-
-"languageserver": {
-  "ccls": {
-    "command": "ccls",
-    "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
-    "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
+  },
+	"intelephense": {
+    "command": "intelephense",
+    "args": ["--stdio"],
+    "filetypes": ["php"],
     "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls"
-        }
-      }
-  }
-}
-
-
-"languageserver": {
-  "digestif": {
-    "command": "digestif",
-    "filetypes": ["tex", "plaintex", "context"]
-  }
-}
-
-"languageserver": {
-  "latex": {
-    "command": "/PATH/TO/texlab",
-    "filetypes": ["tex", "bib", "plaintex", "context"]
-  }
-}
-
-
-"languageserver": {
-  "lua": {
-    "command": "lua-lsp",
-    "filetypes": ["lua"]
-  }
-}
-
-// be careful not to condense the hierarchy as it breaks pyls
-"languageserver": {
-  "python": {
-    "command": "python",
+    	"storagePath": "/tmp/intelephense"
+    	}
+  	},
+	"R": {
+    "enable": true,
+    "command": "/usr/bin/R",
     "args": [
-      "-mpyls",
-      "-vv",
-      "--log-file",
-      "/tmp/lsp_python.log"
-    ],
-    "trace.server": "verbose",
-    "filetypes": [
-      "python"
-    ],
-    "settings": {
-      "pyls": {
-        "enable": true,
-        "trace": {
-          "server": "verbose"
-        },
-        "commandPath": "",
-        "configurationSources": [
-          "pycodestyle"
+            "--slave",
+            "-e",
+            "languageserver::run()"
         ],
-        "plugins": {
-          "jedi_completion": {
-            "enabled": true
-          },
-          "jedi_hover": {
-            "enabled": true
-          },
-          "jedi_references": {
-            "enabled": true
-          },
-          "jedi_signature_help": {
-            "enabled": true
-          },
-          "jedi_symbols": {
-            "enabled": true,
-            "all_scopes": true
-          },
-          "mccabe": {
-            "enabled": true,
-            "threshold": 15
-          },
-          "preload": {
-            "enabled": true
-          },
-          "pycodestyle": {
-            "enabled": true
-          },
-          "pydocstyle": {
-            "enabled": false,
-            "match": "(?!test_).*\\.py",
-            "matchDir": "[^\\.].*"
-          },
-          "pyflakes": {
-            "enabled": true
-          },
-          "rope_completion": {
-            "enabled": true
-          },
-          "yapf": {
-            "enabled": true
-          }
-        }
-      }
-    }
-  }
-}
+    "filetypes": [
+            "r"
+        ]
+    },
 
+	"sql": {
+    "command": "sql-language-server",
+    "args" : ["up", "--method", "stdio"],
+    "filetypes": ["sql", "mysql"]
+    }
+
+	}
+}
