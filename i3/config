@@ -1,46 +1,18 @@
-# vim: filetype=i3
-# File originally  ReinerYaeger 
-
-# #---Basic Definitions---# #
-
-
 for_window [class="^.*"] border pixel 2
-gaps inner 13
-gaps outer 13
+gaps inner 11
+gaps outer 8
 
 set $mod Mod4
 set $texteditor subl
-set $browser /usr/bin/firefox
-set $term xfce4-terminal 
-#set $term xfce4-terminal -e tmux
-set $fileManager exo-open --launch FileManager
+set $browser /home/atom/Documents/Stuff/firefox/firefox
+set $term xfce4-terminal
+set $termalt kitty
+set $termExplorer xfce4-terminal -e ranger
+set $fileManager caja
+#set $fileManager exo-open --launch FileManager
 set $refresh_i3status killall -SIGUSR1 i3status
-set $launcher '/home/atom/.config/polybar/forest/scripts/launcher.sh'
-set $power_menu '/home/atom/.config/polybar/forest/scripts/powermenu.sh'
 
-# bar {
-#         font pango:monospace 9
-#         status_command i3status
-#         mode hide
-#         position top
-#         output primary
-#         tray_output none
-#         separator_symbol |
-        
-#         colors {
-#                 background #222749
-#                 statusline #F8F8F2
-#                 separator  #44475A
-
-#                 focused_workspace  #44475A #44475A #F8F8F2
-#                 active_workspace   #282A36 #44475A #F8F8F2
-#                 inactive_workspace #282A36 #282A36 #BFBFBF
-#                 urgent_workspace   #FF5555 #FF5555 #F8F8F2
-#                 binding_mode       #FF5555 #FF5555 #F8F8F2
-#         }
-# }
-
-
+ 
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
@@ -48,10 +20,9 @@ client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
+font pango:jetbrains mono medium 8
 
-font pango:monospace 8
-
-# Use Mouse+$mod 
+# Use Mouse+$mod
 floating_modifier $mod
 
 # #---Key-bindings---# #
@@ -75,36 +46,39 @@ mode "resize" {
 
 
 #bindsym $mod+d exec     --no-startup-id dmenu_run
-bindsym $mod+d          exec  $launcher
-bindsym $mod+q          kill     
-bindsym $mod+Shift+f    exec $fileManager
-bindsym $mod+Return     exec $term   
-bindsym $mod+BackSpace  mode "$mode_system"
-bindsym $mod+l          exec --no-startup-id $i3lockwall, mode "default" 
-bindsym $mod+z          gaps outer current plus 5 
-bindsym $mod+Shift+z    gaps outer current minus 5
-bindsym $mod+b          bar mode toggle 
-bindsym $mod+Shift+b    floating toggle; sticky toggle; exec --no-startup-id hover left 
-bindsym $mod+Shift+n    floating toggle; sticky toggle; exec --no-startup-id hover right 
-bindsym $mod+Shift+r    restart 
-bindsym $mod+Left       focus left
-bindsym $mod+Down       focus down
-bindsym $mod+Up         focus up
-bindsym $mod+Right      focus right
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up   move up
-bindsym $mod+Shift+Right move right
-bindsym $mod+h split h
-bindsym $mod+v split v
-bindsym $mod+f          fullscreen toggle
-bindsym $mod+s          layout stacking
-bindsym $mod+w          layout tabbed
-bindsym $mod+e          layout toggle split
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space      focus mode_toggle
-bindsym $mod+a          focus parent
-
+bindsym $mod+d                  exec  sh /home/atom/.config/polybar/forest/scripts/launcher.sh
+bindsym $mod+q                  kill
+bindsym $mod+Shift+f            exec $fileManager
+bindsym $mod+Return             exec $termalt
+bindsym $mod+Shift+Return       exec $term
+bindsym $mod+BackSpace          mode "$mode_system"
+bindsym $mod+l                  exec --no-startup-id $i3lockwall, mode "default"
+bindsym $mod+z                  gaps outer current plus 5
+bindsym $mod+Shift+z            gaps outer current minus 5
+bindsym $mod+b                  bar mode toggle 
+bindsym $mod+Shift+b            floating toggle; sticky toggle; exec --no-startup-id hover left
+bindsym $mod+Shift+n            floating toggle; sticky toggle; exec --no-startup-id hover right
+bindsym $mod+Shift+r            restart 
+bindsym $mod+Left               focus left
+bindsym $mod+Down               focus down
+bindsym $mod+Up                 focus up
+bindsym $mod+Right              focus right
+bindsym $mod+Shift+Left         move left
+bindsym $mod+Shift+Down         move down
+bindsym $mod+Shift+Up           move up
+bindsym $mod+Shift+Right        move right
+bindsym $mod+Shift+w            exec $termExplorer
+bindsym $mod+h                  split h
+bindsym $mod+v                  split v
+bindsym $mod+f                  fullscreen toggle
+bindsym $mod+s                  layout stacking
+bindsym $mod+w                  layout tabbed
+bindsym $mod+e                  layout toggle split
+bindsym $mod+Shift+space        floating toggle
+bindsym $mod+space              focus mode_toggle
+bindsym $mod+a                  focus parent
+bindsym $mod+Delete             exec sh /home/atom/.config/polybar/forest/scripts/powermenu.sh
+bindsym Print                   exec  xfce4-screenshooter
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume    exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -112,89 +86,67 @@ bindsym XF86AudioLowerVolume    exec --no-startup-id pactl set-sink-volume @DEFA
 bindsym XF86AudioMute           exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute        exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-bindsym XF86MonBrightnessUp     exec "xbacklight -inc 2 -time 5"
-bindsym XF86MonBrightnessDown   exec "xbacklight -dec 2 -time 5"
-
-#Screenshoter
-bindsym --release Shift+Print   exec --no-startup-id sh $HOME/.config/i3/screenshot.sh partial
-bindsym --release Ctrl+Shift+Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh partial clipboard
-
-bindsym --release Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh full
-bindsym --release Ctrl+Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh full clipboard
-
-bindsym --release $mod+Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh current
-bindsym --release Ctrl+$mod+Print exec --no-startup-id sh $HOME/.config/i3/screenshot.sh current clipboard
 
 
-bindsym $mod+Delete exec $power_menu 
 
 # ###Session
-# set $mode_system System (l) lock, (e) logout, (h) hibernate, (r) reboot, (CTRL+s) shutdown
-# mode "$mode_system" {
-#     bindsym l exec --no-startup-id $i3lockwall, mode "default"
-#     bindsym e exec --no-startup-id i3-msg exit, mode "default"
-#     bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
-#     bindsym r exec --no-startup-id systemctl reboot, mode "default"
-#     bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
+set $mode_system System (l) lock, (e) logout, (h) hibernate, (r) reboot, (CTRL+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $i3lockwall, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
-#     # back to normal: Enter or Escape
-#     bindsym Return mode "default"
-#     bindsym Escape mode "default"
-# }
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+           
 
+exec --no-startup-id /home/atom/.config/i3/script/wallpaperchange.sh
+exec --no-startup-id xfce4-clipman
+exec --no-startup-id xpad
+exec --no-startup-id sh /home/atom/.config/i3/script/flux.sh
+#exec --no-startup-id mate-display-properties
+#exec --no-startup-id xss-lock --transfer-sleep-lock $i3lockwall
+#exec --no-startup-id i3-msg 'workspace $ws1; exec $browser'
+#exec --no-startup-id i3-msg 'workspace $ws2;  exec $texteditor'
+#exec --no-startup-id i3-msg 'workspace $ws2; exec $termalt'
+exec --no-startup-id screenkey
 
-# #---Cosmetics---# #
-set $i3lockwall --no-startup-id sh $HOME/.config/i3/i3lock.sh
-                #i3lock  -f -e -i /home/atom/Pictures/moon.png -c 000000  
-exec --no-startup-id feh --no-fehbg --bg-fill '/home/atom/Pictures/moon.jpg'
-exec --no-startup-id bar mode toggle
-exec --no-startup-id xss-lock --transfer-sleep-lock $i3lockwall
+exec_always --no-startup-id feh --no-fehbg --bg-fill '/home/atom/Pictures/Wallpaper/sakura.jpg'
+exec_always --no-startup-id mate-power-manager
+exec_always --no-startup-id xrandr --output  HDMI-2 --auto --right-of eDP-1
 exec_always --no-startup-id compton
-#exec  bindsym Ctrl+$mod+Delete exec xautolock -locknow 
-exec_always --no-startup-id xautolock -time 5  -locker "sh $HOME/.config/i3/i3lock.sh"
-                                                                #-killtime 10 -killer "systemctl suspend"  -detectsleep 
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh --forest
-#blocks grayblocks shades forest
-
+exec_always --no-startup-id  sh /home/atom/.config/polybar/forest/launch.sh --forest
 
 # #---Dropdown Windows---# #
 # General dropdown window traits. The order can matter.
 for_window [instance="dropdown_*"] floating enable
-for_window [instance="dropdown_*"] move scratchpad
 for_window [instance="dropdown_*"] sticky enable
-for_window [instance="dropdown_*"] scratchpad show
-for_window [instance="dropdown_dropdowncalc"] resize set 800 300
-for_window [instance="dropdown_tmuxdd"] border pixel 3
 for_window [instance="dropdown_*"] move position center
-for_window [class="Pinentry"] sticky enable
-for_window [class="sent"] border pixel 0px
 for_window [title="GIMP Startup"] move workspace $ws5
 for_window [class="Gimp"] move workspace $ws5
 for_window [class="Gimp"] move workspace $ws5
 
-#for_window [title="$fileManager"] move workspace $ws5
-
-# Bindings to make the webcam float and stick.
-for_window [title="mpvfloat"] floating enable
-for_window [title="mpvfloat"] sticky enable
-for_window [title="mpvfloat"] border pixel 0
-no_focus   [title="mpvfloat"]
 
 ##----Window----##
 assign [class="vlc"]            $ws6
 assign [class="qbittorrent"]    $ws7
 assign [class="firefox"]       $ws1
-
+assign [class="Zoom"]           $ws4
+assign [class="rdesktop"]       $ws7
 
 # #---Start-up-Applications-Assignment---# #
-exec --no-startup-id i3-msg 'workspace $ws1; exec $browser'
-exec --no-startup-id i3-msg 'workspace $ws2;  exec $texteditor'
-exec --no-startup-id i3-msg 'workspace $ws2; exec $term '
-for_window [class="$term"] title_align right
+
+for_window [class="xpad" instance="xpad"] floating enable resize set 300 200
+for_window [class="kitty" instance="kitty"] floating enable resize set 800 470
+
 
 
 # NetworkManager
-exec --no-startup-id nm-applet
+exec_always --no-startup-id nm-applet
 
 set $ws1 "1:Web"
 set $ws2 "2:Term"
