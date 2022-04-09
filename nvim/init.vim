@@ -66,7 +66,7 @@ nnoremap N Nzzzv
 nnoremap dd "_dd
 vnoremap < <gv
 vnoremap > >gv
-vnoremap <leader>p "_dP
+vnoremap p "_dP
 
 " Plugins
 
