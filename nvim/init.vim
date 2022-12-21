@@ -1,357 +1,266 @@
-set nu
-set mouse=v
-set nowrap
-set rnu
-set history=100
-set shell=/bin/fish
+set number
+set list
+set shiftwidth=3
 set tabstop=3
-set autoindent
-set shiftwidth=4
-set splitright
-set confirm
-set incsearch
-set showcmd
-set cmdheight=1
-set guifont=Hack\ Nerd\ Font:h16
-set ttimeoutlen=100
+set hidden
+set termguicolors
+set undofile
+set spell
 set ignorecase
+set title
+set fillchars+=vert:\|
 set omnifunc=syntaxcomplete#Complete
 set laststatus=2
-set title
-set nocompatible
-set visualbell
-set noerrorbells
-set numberwidth=1
-set encoding=UTF-8
-set ttyfast  
+set ignorecase
+set smartcase
+set mouse+=a
+set splitright
 set clipboard=unnamedplus
-set hlsearch!
-set spelllang=en,cjk
-set wildmenu  
-set undofile
+set confirm
 set backupdir=/tmp//
 set directory=/tmp//
-set undodir=/tmp//
-set mouse+=a
-set updatetime=150
-"set bufhidden
-"set completeopt+=popup
-syntax on
-filetype plugin indent on
+set hlsearch!
+set spelllang=en
+set wildmenu
+set incsearch
+set nocompatible
+set showmatch
+set ai "Auto indent
+set si "Smart indent
+set nowrap
+set autochdir
+set encoding=UTF-8
+
+" Return to last editing position
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
-:let &makeprg = "g++ Main.cpp -o Main"
 
-tnoremap <Esc> <C-\><C-n>
-map  	<nowait><silent>	<Esc> :set relativenumber!<CR>
-map  	<nowait><silent>  <C-s> :w <CR>
-map  	<nowait><silent>  <C-x> c <CR>
-map   <nowait><silent> 	<C-c> "+y<CR>
-map   <nowait><silent> 	<C-a> ggVG<CR>
-map 	<nowait><silent>  <S-c> :%s/^/
-nmap  <nowait><silent> 	<C-t> :vsp <bar> :vertical resize 50 <bar> :term <CR>
-nmap  <nowait><1Leader>	v :e $MYVIMRC
-map <nowait><silent> <BS> <c-w> <CR>
-nmap <nowait><silent> gd :call <SID>GoToDefinition()<CR>
-nmap <nowait><silent> gr <Plug>(coc-references)
-nmap <nowait><silent> gd <Plug>(coc-definition)
-nmap <nowait><silent> gy <Plug>(coc-type-definition)
-nmap <nowait><silent> gi <Plug>(coc-implementation)
-nmap <nowait><silent> gr <Plug>(coc-references)
-nmap <nowait><silent> [g <Plug>(coc-diagnostic-prev)
-nmap <nowait><silent> ]g <Plug>(coc-diagnostic-next)
-noremap x "_x
-noremap X "_x
-noremap  "_x
-noremap <Del> "_x
-inoremap <nowait> <silent> <C-BS> :set backspace=indent,eol,start <CR>
-nnoremap <nowait><silent> <C-U>  :UndotreeTogg<CR>
-nnoremap <nowait><silent> <space>a  :<C-u>CocList diagnostics<cr> 
-nnoremap <nowait><silent> <space>c  :<C-u>CocList commands<cr> 
-nnoremap <nowait><silent> <space><S-s>  :<C-u>CocList -I symbols<cr> 
-nnoremap <F3> :set hlsearch!<CR>
-nnoremap {w :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-nnoremap <nowait><silent> <space>a  :<C-u>CocList diagnostics<cr> 
-nnoremap <nowait><silent> <space>c  :<C-u>CocList commands<cr> 
-nnoremap <nowait><silent> <space><S-s>  :<C-u>CocList -I symbols<cr> 
-nnoremap <nowait><silent>    <A-.> :BufferNext<CR>
-nnoremap <nowait><silent>    <A-1> :BufferGoto 1<CR>
-nnoremap <nowait><silent>    <A-2> :BufferGoto 2<CR>
-nnoremap <nowait><silent>    <A-3> :BufferGoto 3<CR>
-nnoremap <nowait><silent>    <A-4> :BufferGoto 4<CR>
-nnoremap <nowait><silent>    <A-5> :BufferGoto 5<CR>
-nnoremap <nowait><silent>    <A-6> :BufferGoto 6<CR>
-nnoremap <nowait><silent>    <A-7> :BufferGoto 7<CR>
-nnoremap <nowait><silent>    <A-8> :BufferGoto 8<CR>
-nnoremap <nowait><silent>    <A-9> :BufferLast<CR>
-nnoremap <nowait><silent>    <A-p> :BufferPin<CR>
-nnoremap <nowait><silent>    <A-c> :BufferClose<CR>
-nnoremap <nowait><silent>    <A-Left> :BufferPrevious<CR>
-nnoremap <nowait><silent>    <A-Right> :BufferNext<CR>
-nnoremap <C-Left> <nowait> :tabprevious<CR>                      
-nnoremap <C-Right> <nowait> :tabnext<CR>
-noremap <leader>c "*yy<cr>
-inoremap <silent> <F11> <C-O>:set spell!<cr>
-inoremap <C-e> <C-o>$
-inoremap <C-a> <C-o>0
-"nmap <Leader>_ :DesktopFiles<CR>
+" Persistent Undo
+try
+  set undofile                " Save undos after file closes
+  set undodir=$HOME/.vim/undo " where to save undo histories
+  set undolevels=100000000         " How many undos
+  set undoreload=100000000        " number of lines to save for undocatch
+endtry
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Mapping
+
+let g:coc_node_path = '/home/atom/Documents/Applications/node/node-v16.17.0-linux-x64/bin/node'
+let mapleader = ","
+
+map <C-DOWN> <C-W>j
+map <C-UP> <C-W>k
+map <C-LEFT> <C-W>h
+map <C-RIGHT> <C-W>l
+map <C-s> :w<CR>
+map <silent> <A-1> :b1<Cr>
+map <silent> <A-2> :b2<Cr>
+map <silent> <A-3> :b3<Cr>
+map <silent> <A-4> :b4<Cr>
+map <silent> <A-5> :b5<Cr>
+map <silent> <A-6> :b6<Cr>
+map <silent> <A-7> :b7<Cr>
+map <silent> <A-8> :b8<Cr>
+map <silent> <A-9> :b9<Cr>
+map <silent> <A-c>     :bd<CR>
+map <silent> <A-LEFT>  :bp<CR>
+map <silent> <A-RIGHT> :bn<CR>
+map <silent> <C-a> ggVG<CR>
+
+vmap <leader>a <Plug>(coc-codeaction-selected)<CR>
+vmap <leader>fm  <Plug>(coc-format-selected)
+nmap <leader>fm  <Plug>(coc-format-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)<CR>
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gi <plug>(coc-implementation)
+nmap <silent> gv :vsp<CR><Plug>(coc-definition)<C-W>
+nmap <silent><leader>vss :split<CR>
+nmap <silent><leader>vsv :vsplit<CR>
 
 
-"fzf.vim-------------------maps and uses----------------------
-""Leader+L for line search in the current file.
-"nnoremap <silent> <Leader>L   :BLines<CR>
-"nnoremap <silent> <Leader>B  :Buffers<CR>
-"nnoremap <silent> <Leader>b  :bn<CR>
-nnoremap ,cpp :-1read $HOME/.vim/skeleton/skel.cpp<CR>9j3wa<CR><ESC>O
+
+"" java"
+
+nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
+nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused)
+nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart)
+nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
+
+imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
+imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
+imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
+
+nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
+nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
+nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
+nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
+nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
+
+imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
+imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
+imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
+nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
 
 
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
 
-let mapleader = "\<Space>"
+"" Java"
 
-"Disabling that irritating ERROR bell PHEW!
-if has("gui_macvim")
-	autocmd GUIEnter * set vb t_vb=
+
+
+" To select from auto completion, use shift-Tab
+"inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <A-BS> <C-\><C-o>"_db
+inoremap <silent><expr> <s-TAB> pumvisible() ? coc#select_confirm() : "\<C-g>u\<TAB>"
+inoremap <silent><expr> <s-Tab>
+      \ coc#pum#visible() ? coc#pum#confirm():
+      \ CheckBackspace() ? "\<s-Tab>" :
+      \ coc#refresh()
+" inoremap <expr><C-Tab> coc#pum#visible() ? coc#pum#next(1) : "\<C-h>"
+nnoremap <silent><leader>ve :edit ~/.config/nvim/init.vim<CR>
+nnoremap <silent><leader>vs :source ~/.config/nvim/init.vim<CR>
+nnoremap <silent><leader>vc :edit ~/.config/nvim/coc-settings.json<CR>
+nnoremap <silent><leader>ff <cmd>Telescope find_files<CR>
+nnoremap <silent><leader>fg <cmd>Telescope live_grep<CR>
+nnoremap <silent><leader>fb <cmd>Telescope buffers<CR>
+nnoremap <silent><leader>fh <cmd>Telescope help_tags<CR>
+nnoremap <silent><leader>cpp :FloatermNew --wintype=float --autoclose=0  g++ % -Wall -g -o %.exec && ./%.exec<CR>
+nnoremap <silent><leader>ccc :FloatermNew --wintype=float --autoclose=0 gcc % -Wall -g -o %.exec && ./%.exec<CR>
+nnoremap <silent><leader>jc :FloatermNew --wintype=float --autoclose=0 cd .. & javac -sourcepath . ./*/Driver.java -d ..out/ && java ./*/Driver.class<CR>
+nnoremap <silent><leader>tt :FloatermNew --wintype=float --autoclose=0<CR>
+nnoremap <silent><leader>nt :NERDTreeToggle<CR>
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap dd "_dd
+vnoremap < <gv
+vnoremap > >gv
+"Paste replace visual selection without copying it
+vnoremap p "_dP
+
+" Plugins
+
+" Automatically install vim-plug
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
+"let g:polyglot_disabled = ['markdown','cpp']
 call plug#begin()
-Plug 'rbgrouleff/bclose.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'rbgrouleff/bclose.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tpope/vim-commentary'
-Plug 'luochen1990/rainbow'
-Plug 'srcery-colors/srcery-vim'
+Plug 'zchee/deoplete-jedi'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-surround'
-Plug 'yggdroot/indentline'
-Plug 'jiangmiao/auto-pairs'
-Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'romgrk/barbar.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'yaocccc/nvim-lines.lua'
-Plug 'https://github.com/preservim/nerdtree'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
-Plug 'whatyouhide/vim-gotham'
 Plug 'dracula/vim',{'as':'dracula'}
-Plug 'kaicataldo/material.vim'
-Plug 'https://github.com/Townk/vim-autoclose'
-Plug 'rbgrouleff/bclose.vim'
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'mbbill/undotree'
-Plug 'alvan/vim-closetag'
-Plug 'https://github.com/bfrg/vim-cpp-modern'
-Plug 'uiiaoo/java-syntax.vim'
-Plug 'ray-x/lsp_signature.nvim'
-" Packer
+Plug 'voldikss/vim-floaterm'
+Plug 'https://github.com/ap/vim-css-color'
+Plug 'scrooloose/nerdtree'
+Plug 'jiangmiao/auto-pairs'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'preservim/nerdcommenter'
+Plug 'neomake/neomake'
+Plug 'mattn/emmet-vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'https://github.com/shaunsingh/nord.nvim'
 call plug#end()
 
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.php,*.js'
-let g:closetag_xhtml_filenames = '*.html,*.xhtml,*.phtml,*.php,*.js'
-let g:closetag_filetypes = '*.html,*.xhtml,*.phtml,*.php,*.js'
-let g:closetag_xhtml_filetypes = '*.html,*.xhtml,*.phtml,*.php,*.js'
-let g:closetag_emptyTags_caseSensitive = 0
-let g:closetag_regions = {
-    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-    \ 'javascript.jsx': 'jsxRegion',
-    \ 'typescriptreact': 'jsxRegion,tsxRegion',
-    \ 'javascriptreact': 'jsxRegion',
-    \ }
-
-let g:closetag_shortcut = '>'
-
-" Add > at current position without closing the current tag, default is ''
-"
-let g:closetag_close_shortcut = '<leader>>'
-
-let g:cpp_attributes_highlight = 1
-
-" Highlight struct/class member variables (affects both C and C++ files)
-let g:cpp_member_highlight = 1
-
-" Put all standard C and C++ keywords under Vim's highlight group 'Statement'
-" (affects both C and C++ files)
-let g:cpp_simple_highlight = 1
+let g:neomake_open_list = 2
+let g:neomake_python_enabled_makers = ['flake8']
+" When writing a buffer (no delay).
+call neomake#configure#automake('w')
+" When writing a buffer (no delay), and on normal mode changes (after 750ms).
+call neomake#configure#automake('nw', 750)
+" When reading a buffer (after 1s), and when writing (no delay).
+call neomake#configure#automake('rw', 100)
+" Full config: when writing or reading a buffer, and on changes in insert and
+" normal mode (after 500ms; no delay when writing).
+call neomake#configure#automake('nrwi', 100)
 
 
-"Rainbow Brackets plugin
-let g:rainbow_active = 1
+colorscheme nord
+"colorscheme dracula
+hi Normal guibg=NONE ctermbg=NONE
 
-let g:UltiSnipsExpandTrigger="<tab>"
-" list all snippets for current filetype
-let g:UltiSnipsListSnippets="<c-l>"
-
-
-
-"NETRW
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-augroup ProjectDrawer
-
-
-autocmd BufWritePre * :%s/\s\+$//e
-autocmd FileType c,cpp :set cindent
-autocmd FileType c,cpp :setf c
-autocmd FileType c,cpp :set expandtab
-  let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-autocmd! User indentLine doautocmd indentLine Syntax
-
-
-let g:fzf_history_dir = '/tmp/'
-let g:fzf_files_options =
-			\ '--preview "(coderay {} || bat {}) 2> /dev/null | head -'.&lines.'"'
-let g:fzf_layout = {'window' : {'width' : 0.8, 'height' : 0.8}}
-
-"" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-
-" Insert mode completion
-" imap <c-x><c-k> <plug>(fzf-complete-word)
-" imap <c-x><c-f> <plug>(fzf-complete-path)
-" imap <c-x><c-l> <plug>(fzf-complete-line)
-"
-"augroup resume_edit_position
-	autocmd!
-	autocmd BufReadPost *
-				\ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-				\ | execute "normal! g`\"zvzz"
-				\ | endif
-augroup END
-
-
-command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
-			\ {'source': 'find '.(empty(<f-args>)? '.' : <f-args>).' -type d',
-			\  'sink': 'cd'}))
-
-let g:UltiSnipsExpandTrigger= '<tab>'
-let g:UltiSnipsJumpForwardTrigger='<C-j>'
-let g:UltiSnipsJumpBackwardTrigger='<C-k>'
-
-"" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-
-colorscheme material
 let g:material_terminal_italics = 1
 command! AirlineThemes call fzf#run({
-			\ 'source':  map(split(globpath(&rtp, 'autoload/airline/themes/*.vim'), "\n"),
-			\               "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
-			\ 'sink':    'AirlineTheme',
-			\ 'options': '+m --prompt="Airline Themes> "',
-			\ 'down':    '~40%'
-			\})
-let g:airline_theme='apprentice'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#bufferline#enabled = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+      \ 'source':  map(split(globpath(&rtp, 'autoload/airline/themes/*.vim'), "\n"),
+      \               "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
+      \ 'sink':    'AirlineTheme',
+      \ 'options': '+m --prompt="Airline Themes> "',
+      \ 'down':    '~40%'
+      \})
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
 
-function! s:GoToDefinition()
-  if CocAction('jumpDefinition')
-    return v:true
-  endif
+set guifont=DroidSansMono\ Nerd\ Font\ 12
 
-  let ret = execute("silent! normal \<C-]>")
-  if ret =~ "Error" || ret =~ "错误"
-    call searchdecl(expand('<cword>'))
-  endif
-endfunction
+let g:airline_theme='nord_minimal'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#bufferline#enabled = 1
+" let g:airline_left_sep = "\uE0C8" 
+" let g:airline_left_alt_sep = "\uE0C8"
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#coc#enabled = 1
+let airline#extensions#coc#error_symbol = '🔥'
+let airline#extensions#coc#warning_symbol ='⚠️'
+let g:airline#extensions#scrollbar#enabled = 1
 
-au Filetype markdown,c,cpp let b:autopairs_loaded=1
+let g:airline_detect_spelllang=0
 
-" Copy to system clipboard
-noremap <leader>c "*yy<cr>
+let g:webdevicons_enable_nerdtree = 1
 
-let bufferline = get(g:, 'bufferline', {})
 
-" New tabs are opened next to the currently selected tab.
-" Enable to insert them in buffer number order.
-let bufferline.add_in_buffer_number_order = v:false
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
 
-" Enable/disable animations
-let bufferline.animation = v:true
 
-" Enable/disable auto-hiding the tab bar when there is a single buffer
-let bufferline.auto_hide = v:false
+autocmd FileType scss setl iskeyword+=@-@
+autocmd FileType css,scss setlocal iskeyword+=-,?,!
 
-" Enable/disable current/total tabpages indicator (top right corner)
-let bufferline.tabpages = v:true
-
-" Enable/disable close button
-let bufferline.closable = v:true
-
-" Enables/disable clickable tabs
-"  - left-click: go to buffer
-"  - middle-click: delete buffer
-let bufferline.clickable = v:true
-
-" Excludes buffers from the tabline
-let bufferline.exclude_ft = ['javascript']
-let bufferline.exclude_name = ['package.json']
-
-" Enable/disable icons
-" if set to 'buffer_number', will show buffer number in the tabline
-" if set to 'numbers', will show buffer index in the tabline
-" if set to 'both', will show buffer index and icons in the tabline
-let bufferline.icons = v:true
-
-" Sets the icon's highlight group.
-" If false, will use nvim-web-devicons colors
-let bufferline.icon_custom_colors = v:false
-
-" Configure icons on the bufferline.
-let bufferline.icon_separator_active = '▎'
-let bufferline.icon_separator_inactive = '▎'
-let bufferline.icon_close_tab = ''
-let bufferline.icon_close_tab_modified = '●'
-let bufferline.icon_pinned = '車'
-
-" If true, new buffers will be inserted at the end of the list.
-" Default is to insert after current buffer.
-let bufferline.insert_at_end = v:false
-
-" Sets the maximum padding width with which to surround each tab.
-let bufferline.maximum_padding = 4
-
-" Sets the maximum buffer name length.
-let bufferline.maximum_length = 30
-
-" If set, the letters for each buffer in buffer-pick mode will be
-" assigned based on their name. Otherwise or in case all letters are
-" already assigned, the behavior is to assign letters in order of
-" usability (see order below)
-let bufferline.semantic_letters = v:true
-
-" New buffer letters are assigned in this order. This order is
-" optimal for the qwerty keyboard layout but might need adjustement
-" for other layouts.
-let bufferline.letters =
-  \ 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP'
-
-" Sets the name of unnamed buffers. By default format is "[Buffer X]"
-" where X is the buffer number. But only a static string is accepted here.
-let bufferline.no_name_title = v:null
+" Simple Comment Help
+" gc{motion}   :: Toggle comments (for small comments within one line
+    "                 the &filetype_inline style will be used, if
+    "                 defined)
+    " gc<Count>c{motion} :: Toggle comment with count argument
+    "                 (see |tcomment#Comment()|)
+    " gcc          :: Toggle comment for the current line
+    " g<{motion}   :: Uncomment region
+    " g<c          :: Uncomment the current line
+    " g<b          :: Uncomment the current region as block
+    "
+    " g>{motion}   :: Comment region
+    " g>c          :: Comment the current line
+    " g>b          :: Comment the current region as block
